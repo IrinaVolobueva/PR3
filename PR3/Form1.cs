@@ -16,18 +16,19 @@ namespace PR3
         {
             InitializeComponent();
         }
-        static int FindValueIndex<T>(IEnumerable<T> sequence, T value)
+        static string FindValueIndex<T>(IEnumerable<T> sequence, T value)
         {
-            int index = 1;
+            int index = 0;
             foreach (T element in sequence)
             {
                 if (EqualityComparer<T>.Default.Equals(element, value))
                 {
-                    return index;
+                    return index.ToString();
                 }
                 index++;
             }
-            return 0;
+            string indices = string.Join(", ", Enumerable.Range(0, sequence.Count()));
+            return indices;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -37,7 +38,7 @@ namespace PR3
                 {
                     string[] values = textBox1.Text.Split(new string[] { ", " }, StringSplitOptions.None); // метод Split для разделения строки на массив строк. пробел стал частью слова.
                     string desired = textBox2.Text;
-                    int position = FindValueIndex(values, desired);
+                    string position = FindValueIndex(values, desired);
                     textBox3.Text = Convert.ToString(position);
                 }
                 else if (Int32.TryParse(textBox1.Text, out int i))
@@ -45,7 +46,7 @@ namespace PR3
                     string[] valueStrings = textBox1.Text.Split(new string[] { ", " }, StringSplitOptions.None);
                     int[] values = Array.ConvertAll(valueStrings, Int32.Parse);
                     int desired = Convert.ToInt32(textBox2.Text);
-                    int position = FindValueIndex(values, desired);
+                    string position = FindValueIndex(values, desired);
                     textBox3.Text = Convert.ToString(position);
                 }
                 else
@@ -53,7 +54,7 @@ namespace PR3
                     string[] valueStrings = textBox1.Text.Split(new string[] { ", " }, StringSplitOptions.None);
                     double[] values = Array.ConvertAll(valueStrings, Double.Parse); // преобразование массива из одного типа в другой
                     double desired = Convert.ToDouble(textBox2.Text);
-                    double position = FindValueIndex(values, desired);
+                    string position = FindValueIndex(values, desired);
                     textBox3.Text = Convert.ToString(position);
                 }
             }
